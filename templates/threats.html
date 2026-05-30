@@ -1,0 +1,326 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+        content="width=device-width, initial-scale=1.0">
+
+    <title>Threats</title>
+
+    <link rel="stylesheet"
+        href="{{ url_for('static', filename='style.css') }}">
+
+    <link rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500&family=Inter:wght@400;500;600;700&display=swap"
+        rel="stylesheet">
+
+</head>
+
+<body>
+
+    <!-- SIDEBAR -->
+
+    <div class="sidebar">
+
+        <div>
+
+            <h2 class="logo">
+
+                <i class="fa-solid fa-shield-halved"></i>
+
+                ThreatWatch
+
+            </h2>
+
+            <ul class="nav-links">
+
+                <a href="/">
+
+                    <li>
+
+                        <i class="fa-solid fa-chart-line"></i>
+
+                        Dashboard
+
+                    </li>
+
+                </a>
+
+                <a href="/threats">
+
+                    <li class="active">
+
+                        <i class="fa-solid fa-triangle-exclamation"></i>
+
+                        Threats
+
+                    </li>
+
+                </a>
+
+                <a href="/analytics">
+
+                    <li>
+
+                        <i class="fa-solid fa-chart-pie"></i>
+
+                        Analytics
+
+                    </li>
+
+                </a>
+
+                <a href="/reports">
+
+                    <li>
+
+                        <i class="fa-solid fa-file-shield"></i>
+
+                        Reports
+
+                    </li>
+
+                </a>
+
+                <a href="/settings">
+
+                    <li>
+
+                        <i class="fa-solid fa-gear"></i>
+
+                        Settings
+
+                    </li>
+
+                </a>
+
+            </ul>
+
+        </div>
+
+        <div class="system-box">
+
+            <p>System Status</p>
+
+            <div class="live-status">
+
+                <span class="live-dot"></span>
+
+                SYSTEM ACTIVE
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <!-- MAIN CONTENT -->
+
+    <div class="main-content">
+
+        <!-- TOPBAR -->
+
+        <div class="topbar">
+
+            <div>
+
+                <h1>Threat Detection Center</h1>
+
+                <p>
+                    Analyze suspicious IP activity and attack attempts.
+                </p>
+
+            </div>
+
+        </div>
+
+        <!-- STATS -->
+
+        <div class="stats-grid">
+
+            <div class="stat-card glass">
+
+                <div class="icon-box red">
+
+                    <i class="fa-solid fa-skull-crossbones"></i>
+
+                </div>
+
+                <div>
+
+                    <span>Total Threats</span>
+
+                    <h2>{{ data|length }}</h2>
+
+                </div>
+
+            </div>
+
+            <div class="stat-card glass">
+
+                <div class="icon-box yellow">
+
+                    <i class="fa-solid fa-radiation"></i>
+
+                </div>
+
+                <div>
+
+                    <span>Medium Risk</span>
+
+                    <h2>
+                        {{ data | selectattr("risk", "equalto", "Medium") | list | length }}
+                    </h2>
+
+                </div>
+
+            </div>
+
+            <div class="stat-card glass">
+
+                <div class="icon-box red">
+
+                    <i class="fa-solid fa-bug"></i>
+
+                </div>
+
+                <div>
+
+                    <span>High Risk</span>
+
+                    <h2>
+                        {{ data | selectattr("risk", "equalto", "High") | list | length }}
+                    </h2>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <!-- THREAT GRID -->
+
+        <div class="threat-grid">
+
+            {% for item in data %}
+
+            <div class="glass threat-card">
+
+                <!-- HEADER -->
+
+                <div class="threat-header">
+
+                    <div class="threat-icon">
+
+                        <i class="fa-solid fa-user-secret"></i>
+
+                    </div>
+
+                    {% if item.risk == "High" %}
+
+                    <span class="badge high">
+
+                        HIGH
+
+                    </span>
+
+                    {% elif item.risk == "Medium" %}
+
+                    <span class="badge medium">
+
+                        MEDIUM
+
+                    </span>
+
+                    {% else %}
+
+                    <span class="badge low">
+
+                        LOW
+
+                    </span>
+
+                    {% endif %}
+
+                </div>
+
+                <!-- BODY -->
+
+                <div class="threat-body">
+
+                    <h2>{{ item.ip }}</h2>
+
+                    <p>
+                        Suspicious login attempts detected from this IP address.
+                        Continuous monitoring recommended.
+                    </p>
+
+                    <!-- INFO -->
+
+                    <div class="threat-info">
+
+                        <div class="info-box">
+
+                            <span>Attempts</span>
+
+                            <h3>{{ item.attempts }}</h3>
+
+                        </div>
+
+                        <div class="info-box">
+
+                            <span>Status</span>
+
+                            <h3>Active</h3>
+
+                        </div>
+
+                    </div>
+
+                    <!-- ACTIONS -->
+
+                    <div class="threat-actions">
+
+                        <button class="block-btn">
+
+                            <i class="fa-solid fa-ban"></i>
+
+                            Block IP
+
+                        </button>
+
+                        <a href="/investigate/{{ item.ip }}"
+                            style="flex:1; text-decoration:none;">
+
+                            <button class="investigate-btn"
+                                style="width:100%;">
+
+                                <i class="fa-solid fa-magnifying-glass"></i>
+
+                                Investigate
+
+                            </button>
+
+                        </a>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+            {% endfor %}
+
+        </div>
+
+    </div>
+
+</body>
+
+</html>
+```

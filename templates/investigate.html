@@ -1,0 +1,451 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+        content="width=device-width, initial-scale=1.0">
+
+    <title>Threat Investigation</title>
+
+    <!-- Google Fonts -->
+
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500&family=Inter:wght@400;500;600;700&display=swap"
+        rel="stylesheet">
+
+    <!-- Font Awesome -->
+
+    <link rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
+    <style>
+
+        *{
+            margin:0;
+            padding:0;
+            box-sizing:border-box;
+        }
+
+        body{
+
+            background:
+            linear-gradient(rgba(255,255,255,0.03) 1px, transparent 1px),
+            linear-gradient(90deg, rgba(255,255,255,0.03) 1px, transparent 1px),
+            linear-gradient(135deg,#050816,#0f172a,#111827);
+
+            background-size:40px 40px;
+
+            min-height:100vh;
+
+            color:white;
+
+            font-family:'Inter',sans-serif;
+
+            padding:40px;
+        }
+
+        .topbar{
+
+            display:flex;
+
+            justify-content:space-between;
+
+            align-items:center;
+
+            margin-bottom:35px;
+        }
+
+        .logo{
+
+            display:flex;
+
+            align-items:center;
+
+            gap:12px;
+
+            color:#00ff9d;
+
+            font-size:28px;
+
+            font-family:'Orbitron',sans-serif;
+        }
+
+        .back-btn{
+
+            background:rgba(255,255,255,0.05);
+
+            border:1px solid rgba(255,255,255,0.08);
+
+            color:white;
+
+            padding:14px 20px;
+
+            border-radius:14px;
+
+            cursor:pointer;
+
+            transition:0.3s;
+        }
+
+        .back-btn:hover{
+
+            background:rgba(0,255,157,0.12);
+
+            color:#00ff9d;
+        }
+
+        .investigation-card{
+
+            background:rgba(255,255,255,0.05);
+
+            border:1px solid rgba(255,255,255,0.08);
+
+            backdrop-filter:blur(15px);
+
+            border-radius:28px;
+
+            padding:35px;
+
+            box-shadow:0 10px 30px rgba(0,0,0,0.3);
+
+            overflow:hidden;
+
+            position:relative;
+        }
+
+        .investigation-card::before{
+
+            content:"";
+
+            position:absolute;
+
+            top:0;
+
+            left:0;
+
+            width:100%;
+
+            height:4px;
+
+            background:linear-gradient(
+                90deg,
+                #00ff9d,
+                #00c3ff
+            );
+        }
+
+        .investigation-header{
+
+            display:flex;
+
+            justify-content:space-between;
+
+            align-items:center;
+
+            margin-bottom:35px;
+        }
+
+        .ip-box{
+
+            background:rgba(255,255,255,0.06);
+
+            padding:14px 18px;
+
+            border-radius:14px;
+
+            display:inline-block;
+
+            font-size:18px;
+
+            margin-top:15px;
+        }
+
+        .badge{
+
+            padding:10px 20px;
+
+            border-radius:50px;
+
+            font-size:13px;
+
+            font-weight:700;
+
+            letter-spacing:1px;
+
+            background:rgba(255,77,77,0.15);
+
+            color:#ff4d4d;
+        }
+
+        .details-grid{
+
+            display:grid;
+
+            grid-template-columns:repeat(auto-fit,minmax(250px,1fr));
+
+            gap:24px;
+
+            margin-top:30px;
+        }
+
+        .detail-card{
+
+            background:rgba(255,255,255,0.04);
+
+            border:1px solid rgba(255,255,255,0.05);
+
+            border-radius:20px;
+
+            padding:24px;
+
+            transition:0.3s;
+        }
+
+        .detail-card:hover{
+
+            transform:translateY(-5px);
+
+            border-color:rgba(0,255,157,0.2);
+        }
+
+        .detail-icon{
+
+            width:58px;
+
+            height:58px;
+
+            border-radius:18px;
+
+            background:rgba(0,255,157,0.12);
+
+            display:flex;
+
+            justify-content:center;
+
+            align-items:center;
+
+            color:#00ff9d;
+
+            font-size:22px;
+
+            margin-bottom:18px;
+        }
+
+        .detail-card h3{
+
+            font-size:15px;
+
+            color:#94a3b8;
+
+            margin-bottom:10px;
+        }
+
+        .detail-card h2{
+
+            font-size:24px;
+        }
+
+        .timeline{
+
+            margin-top:40px;
+        }
+
+        .timeline h2{
+
+            margin-bottom:25px;
+        }
+
+        .timeline-item{
+
+            padding:18px;
+
+            border-left:3px solid #00ff9d;
+
+            background:rgba(255,255,255,0.04);
+
+            border-radius:12px;
+
+            margin-bottom:18px;
+        }
+
+        .time{
+
+            color:#00ff9d;
+
+            font-weight:700;
+
+            margin-right:10px;
+        }
+
+        @media(max-width:850px){
+
+            body{
+                padding:20px;
+            }
+
+            .investigation-header{
+                flex-direction:column;
+                align-items:flex-start;
+                gap:20px;
+            }
+
+            .topbar{
+                flex-direction:column;
+                align-items:flex-start;
+                gap:20px;
+            }
+        }
+
+    </style>
+
+</head>
+
+<body>
+
+    <div class="topbar">
+
+        <div class="logo">
+
+            <i class="fa-solid fa-shield-halved"></i>
+
+            ThreatWatch
+
+        </div>
+
+        <button class="back-btn"
+            onclick="window.history.back()">
+
+            <i class="fa-solid fa-arrow-left"></i>
+            Back
+
+        </button>
+
+    </div>
+
+    <div class="investigation-card">
+
+        <div class="investigation-header">
+
+            <div>
+
+                <h1>
+                    Threat Investigation
+                </h1>
+
+                <div class="ip-box">
+                    {{ ip }}
+                </div>
+
+            </div>
+
+            <div class="badge">
+                HIGH RISK
+            </div>
+
+        </div>
+
+        <div class="details-grid">
+
+            <div class="detail-card">
+
+                <div class="detail-icon">
+
+                    <i class="fa-solid fa-globe"></i>
+
+                </div>
+
+                <h3>Country</h3>
+
+                <h2>Russia</h2>
+
+            </div>
+
+            <div class="detail-card">
+
+                <div class="detail-icon">
+
+                    <i class="fa-solid fa-ban"></i>
+
+                </div>
+
+                <h3>Failed Attempts</h3>
+
+                <h2>128</h2>
+
+            </div>
+
+            <div class="detail-card">
+
+                <div class="detail-icon">
+
+                    <i class="fa-solid fa-user-secret"></i>
+
+                </div>
+
+                <h3>Attack Type</h3>
+
+                <h2>Brute Force</h2>
+
+            </div>
+
+            <div class="detail-card">
+
+                <div class="detail-icon">
+
+                    <i class="fa-solid fa-server"></i>
+
+                </div>
+
+                <h3>Status</h3>
+
+                <h2>Active Threat</h2>
+
+            </div>
+
+        </div>
+
+        <div class="timeline">
+
+            <h2>
+                Attack Timeline
+            </h2>
+
+            <div class="timeline-item">
+
+                <span class="time">
+                    08:21 PM
+                </span>
+
+                Multiple failed SSH login attempts detected.
+
+            </div>
+
+            <div class="timeline-item">
+
+                <span class="time">
+                    08:25 PM
+                </span>
+
+                Suspicious authentication bypass attempt detected.
+
+            </div>
+
+            <div class="timeline-item">
+
+                <span class="time">
+                    08:31 PM
+                </span>
+
+                IP flagged by threat intelligence engine.
+
+            </div>
+
+        </div>
+
+    </div>
+
+</body>
+
+</html>

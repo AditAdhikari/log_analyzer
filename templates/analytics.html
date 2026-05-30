@@ -1,0 +1,324 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <title>Analytics</title>
+
+    <!-- Google Fonts -->
+
+    <link
+      href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500&family=Inter:wght@400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+
+    <!-- Font Awesome -->
+
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
+    />
+
+    <link
+      rel="stylesheet"
+      href="{{ url_for('static', filename='style.css') }}"
+    />
+
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      body {
+        background:
+          linear-gradient(rgba(255, 255, 255, 0.03) 1px, transparent 1px),
+          linear-gradient(
+            90deg,
+            rgba(255, 255, 255, 0.03) 1px,
+            transparent 1px
+          ),
+          linear-gradient(135deg, #050816, #0f172a, #111827);
+
+        background-size: 40px 40px;
+
+        color: white;
+
+        font-family: "Inter", sans-serif;
+
+        min-height: 100vh;
+
+        display: flex;
+      }
+
+      /* SIDEBAR */
+
+      .sidebar {
+        width: 260px;
+
+        background: rgba(255, 255, 255, 0.04);
+
+        backdrop-filter: blur(15px);
+
+        border-right: 1px solid rgba(255, 255, 255, 0.08);
+
+        padding: 30px 20px;
+
+        display: flex;
+
+        flex-direction: column;
+
+        justify-content: space-between;
+      }
+
+      /* .logo{
+
+            color:#00ff9d;
+
+            font-family:'Orbitron',sans-serif;
+
+            margin-bottom:40px;
+        } */
+
+      .nav-links {
+        list-style: none;
+      }
+
+      .nav-links a {
+        text-decoration: none;
+
+        color: inherit;
+
+        display: block;
+      }
+
+      .nav-links li {
+        padding: 14px 18px;
+
+        margin-bottom: 10px;
+
+        border-radius: 12px;
+
+        color: #cbd5e1;
+
+        transition: 0.3s;
+
+        cursor: pointer;
+      }
+
+      .nav-links li:hover,
+      .nav-links .active {
+        background: rgba(0, 255, 157, 0.12);
+
+        color: #00ff9d;
+      }
+
+      .system-box {
+        background: rgba(0, 255, 157, 0.08);
+
+        border: 1px solid rgba(0, 255, 157, 0.2);
+
+        border-radius: 18px;
+
+        padding: 20px;
+      }
+
+      .live-status {
+        margin-top: 10px;
+
+        display: flex;
+
+        align-items: center;
+
+        gap: 10px;
+
+        color: #00ff9d;
+      }
+
+      .live-dot {
+        width: 10px;
+
+        height: 10px;
+
+        border-radius: 50%;
+
+        background: #00ff9d;
+
+        box-shadow: 0 0 10px #00ff9d;
+      }
+
+      /* MAIN */
+
+      .main-content {
+        flex: 1;
+
+        padding: 35px;
+      }
+
+      .topbar {
+        display: flex;
+
+        justify-content: space-between;
+
+        align-items: center;
+
+        margin-bottom: 30px;
+      }
+
+      .topbar h1 {
+        font-size: 36px;
+      }
+
+      .topbar p {
+        color: #94a3b8;
+      }
+
+      /* GLASS */
+
+      .glass {
+        background: rgba(255, 255, 255, 0.05);
+
+        backdrop-filter: blur(15px);
+
+        border: 1px solid rgba(255, 255, 255, 0.08);
+
+        border-radius: 24px;
+
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+      }
+
+      .table-card {
+        padding: 30px;
+      }
+
+      .section-title {
+        margin-bottom: 20px;
+      }
+
+      /* COMING SOON */
+
+      .coming-text {
+        min-height: 500px;
+
+        display: flex;
+
+        flex-direction: column;
+
+        justify-content: center;
+
+        align-items: center;
+
+        text-align: center;
+      }
+
+      .coming-text i {
+        font-size: 80px;
+
+        color: #00ff9d;
+
+        margin-bottom: 30px;
+      }
+
+      .coming-text h1 {
+        font-size: 55px;
+
+        margin-bottom: 15px;
+      }
+
+      .coming-text p {
+        color: #94a3b8;
+
+        font-size: 17px;
+      }
+    </style>
+  </head>
+
+  <body>
+    <!-- SIDEBAR -->
+
+    <div class="sidebar">
+      <div>
+        <h2 class="logo">
+          <i class="fa-solid fa-shield-halved"></i>
+          ThreatWatch
+        </h2>
+
+        <ul class="nav-links">
+          <a href="/">
+            <li>
+              <i class="fa-solid fa-chart-line"></i>
+              Dashboard
+            </li>
+          </a>
+
+          <a href="/threats">
+            <li>
+              <i class="fa-solid fa-triangle-exclamation"></i>
+              Threats
+            </li>
+          </a>
+
+          <a href="/analytics">
+            <li class="active">
+              <i class="fa-solid fa-chart-pie"></i>
+              Analytics
+            </li>
+          </a>
+
+          <a href="/reports">
+            <li>
+              <i class="fa-solid fa-file-shield"></i>
+              Reports
+            </li>
+          </a>
+
+          <a href="/settings">
+            <li>
+              <i class="fa-solid fa-gear"></i>
+              Settings
+            </li>
+          </a>
+        </ul>
+      </div>
+
+      <div class="system-box">
+        <p>System Status</p>
+
+        <div class="live-status">
+          <span class="live-dot"></span>
+
+          SYSTEM ACTIVE
+        </div>
+      </div>
+    </div>
+
+    <!-- MAIN CONTENT -->
+
+    <div class="main-content">
+      <div class="topbar">
+        <div>
+          <h1>Threat Analytics</h1>
+
+          <p>Visualize cyber threat intelligence and attack patterns.</p>
+        </div>
+      </div>
+
+      <div class="glass table-card">
+        <div class="section-title">
+          <h2>Analytics</h2>
+        </div>
+
+        <div class="coming-text">
+          <i class="fa-solid fa-chart-pie"></i>
+
+          <h1>Coming Soon</h1>
+
+          <p>Advanced SOC analytics are currently under development.</p>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>

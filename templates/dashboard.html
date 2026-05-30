@@ -1,0 +1,318 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+        content="width=device-width, initial-scale=1.0">
+
+    <title>ThreatWatch</title>
+
+    <link rel="stylesheet"
+        href="{{ url_for('static', filename='style.css') }}">
+
+    <link rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500&family=Inter:wght@400;500;600;700&display=swap"
+        rel="stylesheet">
+
+</head>
+
+<body>
+
+    <!-- SIDEBAR -->
+
+    <div class="sidebar">
+
+        <div>
+
+            <h2 class="logo">
+
+                <i class="fa-solid fa-shield-halved"></i>
+
+                ThreatWatch
+
+            </h2>
+
+            <ul class="nav-links">
+
+                <a href="/">
+                    <li class="active">
+
+                        <i class="fa-solid fa-chart-line"></i>
+
+                        Dashboard
+
+                    </li>
+                </a>
+
+                <a href="/threats">
+                    <li>
+
+                        <i class="fa-solid fa-triangle-exclamation"></i>
+
+                        Threats
+
+                    </li>
+                </a>
+
+                <a href="/analytics">
+                    <li>
+
+                        <i class="fa-solid fa-chart-pie"></i>
+
+                        Analytics
+
+                    </li>
+                </a>
+
+                <a href="/reports">
+                    <li>
+
+                        <i class="fa-solid fa-file-shield"></i>
+
+                        Reports
+
+                    </li>
+                </a>
+
+                <a href="/settings">
+                    <li>
+
+                        <i class="fa-solid fa-gear"></i>
+
+                        Settings
+
+                    </li>
+                </a>
+
+            </ul>
+
+        </div>
+
+        <div class="system-box">
+
+            <p>System Status</p>
+
+            <div class="live-status">
+
+                <span class="live-dot"></span>
+
+                SYSTEM ACTIVE
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <!-- MAIN -->
+
+    <div class="main-content">
+
+        <div class="topbar">
+
+            <div>
+
+                <h1>SOC Dashboard</h1>
+
+                <p>
+                    Monitor suspicious login activity.
+                </p>
+
+            </div>
+
+            <button class="refresh-btn">
+
+                Refresh Logs
+
+            </button>
+
+        </div>
+
+        <!-- STATS -->
+
+        <div class="stats-grid">
+
+            <div class="stat-card glass">
+
+                <div class="icon-box green">
+
+                    <i class="fa-solid fa-bug"></i>
+
+                </div>
+
+                <div>
+
+                    <p>Total Alerts</p>
+
+                    <h2>{{ total_logs }}</h2>
+
+                </div>
+
+            </div>
+
+            <div class="stat-card glass">
+
+                <div class="icon-box red">
+
+                    <i class="fa-solid fa-skull-crossbones"></i>
+
+                </div>
+
+                <div>
+
+                    <p>High Risk</p>
+
+                    <h2>{{ high_risk }}</h2>
+
+                </div>
+
+            </div>
+
+            <div class="stat-card glass">
+
+                <div class="icon-box yellow">
+
+                    <i class="fa-solid fa-radiation"></i>
+
+                </div>
+
+                <div>
+
+                    <p>Medium Risk</p>
+
+                    <h2>{{ medium_risk }}</h2>
+
+                </div>
+
+            </div>
+
+            <div class="stat-card glass">
+
+                <div class="icon-box blue">
+
+                    <i class="fa-solid fa-shield"></i>
+
+                </div>
+
+                <div>
+
+                    <p>Low Risk</p>
+
+                    <h2>{{ low_risk }}</h2>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <!-- TABLE -->
+
+        <div class="glass table-card">
+
+            <h2 style="margin-bottom:25px;">
+                Suspicious Activity
+            </h2>
+
+            <table class="custom-table">
+
+                <thead>
+
+                    <tr>
+
+                        <th>IP</th>
+
+                        <th>Attempts</th>
+
+                        <th>Threat</th>
+
+                    </tr>
+
+                </thead>
+
+                <tbody>
+
+                    {% for item in data %}
+
+                    <tr>
+
+                        <td>
+
+                            <div class="ip-box">
+
+                                {{ item.ip }}
+
+                            </div>
+
+                        </td>
+
+                        <td>
+
+                            {{ item.attempts }}
+
+                        </td>
+
+                        <td>
+
+                            {% if item.risk == "High" %}
+
+                            <span class="badge high">
+                                HIGH
+                            </span>
+
+                            {% elif item.risk == "Medium" %}
+
+                            <span class="badge medium">
+                                MEDIUM
+                            </span>
+
+                            {% else %}
+
+                            <span class="badge low">
+                                LOW
+                            </span>
+
+                            {% endif %}
+
+                        </td>
+
+                    </tr>
+
+                    {% endfor %}
+
+                </tbody>
+
+            </table>
+
+            <!-- UPLOAD -->
+
+            <form action="/upload"
+                method="POST"
+                enctype="multipart/form-data"
+                class="upload-box">
+
+                <input type="file"
+                    name="logfile"
+                    required>
+
+                <button type="submit"
+                    class="action-btn">
+
+                    Upload Log
+
+                </button>
+
+            </form>
+
+        </div>
+
+    </div>
+
+</body>
+
+</html>
